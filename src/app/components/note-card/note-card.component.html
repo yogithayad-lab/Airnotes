@@ -1,0 +1,23 @@
+<article class="note-card">
+  <div class="card-top">
+    
+    <span class="category" [class.job]="note.category === 'job'">
+      {{ note.category === 'college' ? 'College / Class' : 'Job Meeting' }}
+    </span>
+    <span class="date">{{ note.noteDate | date: 'mediumDate' }}</span>
+  </div>
+
+  <div>
+    <h3>{{ note.title }}</h3>
+    <p class="context">{{ note.contextName }}</p>
+    <p class="content">{{ note.content }}</p>
+  </div>
+
+  <div class="card-footer">
+    <small>Edited {{ note.updatedAt | date: 'short' }}</small>
+    <div class="actions">
+      <a [routerLink]="['/notes', note.id, 'edit']">Edit</a>
+      <button type="button" (click)="requestDelete()">Delete</button>
+    </div>
+  </div>
+</article>

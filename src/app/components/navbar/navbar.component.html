@@ -1,0 +1,17 @@
+<header class="navbar">
+  <div class="nav-content">
+    <a routerLink="/" class="brand" aria-label="AirNotes home">
+      <img src="assets/logo.png" alt="AirNotes logo" class="logo" />
+    </a>
+
+    <div class="nav-actions">
+      <app-gesture-recognition (saveRequested)="onSaveRequested()"></app-gesture-recognition>
+      <nav>
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        <a routerLink="/notes/new" routerLinkActive="active" class="new-note-link">
+          <span>+</span> New Note
+        </a>
+      </nav>
+    </div>
+  </div>
+</header>

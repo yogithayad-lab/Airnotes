@@ -1,0 +1,95 @@
+<section class="form-page">
+  <div class="form-header">
+    <div class="gold-text">
+      <span class="eyebrow">{{ isEditMode() ? 'UPDATE YOUR NOTE' : 'CAPTURE A NEW IDEA' }}</span>
+      <h1>{{ isEditMode() ? 'Edit note' : 'Create a new note' }}</h1>
+      <p>
+        Add the important details from your class or job meeting.
+      </p>
+    </div>
+  
+  </div>
+
+  <form [formGroup]="noteForm" (ngSubmit)="saveNote()">
+    <div class="field full-width">
+      <label>Note category</label>
+      <div class="category-options">
+        <label [class.selected]="noteForm.controls.category.value === 'college'">
+          <input type="radio" formControlName="category" value="college">
+          <span class="icon">🎓</span>
+          <span>
+            <strong>College / Class</strong>
+            <small>Lectures, assignments, and study notes</small>
+          </span>
+        </label>
+
+        <label [class.selected]="noteForm.controls.category.value === 'job'">
+          <input type="radio" formControlName="category" value="job">
+          <span class="icon">💼</span>
+          <span>
+            <strong>Job Meeting</strong>
+            <small>Decisions, action items, and discussions</small>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="title">Note title</label>
+      <input
+        id="title"
+        type="text"
+        formControlName="title"
+        placeholder="Example: Angular Signals"
+      >
+      @if (hasError('title')) {
+        <small class="error">Enter a title with 80 characters or fewer.</small>
+      }
+    </div>
+
+    <div class="field">
+      <label for="contextName">
+        {{ noteForm.controls.category.value === 'college' ? 'Class / Subject' : 'Company / Meeting' }}
+      </label>
+      <input
+        id="contextName"
+        type="text"
+        formControlName="contextName"
+        [placeholder]="noteForm.controls.category.value === 'college'
+          ? 'Example: CS 501'
+          : 'Example: Sprint Planning'"
+      >
+      @if (hasError('contextName')) {
+        <small class="error">This field is required.</small>
+      }
+    </div>
+
+    <div class="field">
+      <label for="noteDate">Date</label>
+      <input id="noteDate" type="date" formControlName="noteDate">
+      @if (hasError('noteDate')) {
+        <small class="error">Select a date.</small>
+      }
+    </div>
+
+    <div class="field full-width">
+      <label for="content">Notes</label>
+      <textarea
+        id="content"
+        rows="12"
+        formControlName="content"
+        placeholder="Write important ideas, decisions, reminders, or action items..."
+      ></textarea>
+      @if (hasError('content')) {
+        <small class="error">Add at least 3 characters of note content.</small>
+      }
+    </div>
+
+    <div class="form-actions full-width">
+      <a routerLink="/">Cancel</a>
+      <button type="submit">
+        {{ isEditMode() ? 'Save changes' : 'Save note' }}
+      </button>
+    </div>
+  </form>
+</section>

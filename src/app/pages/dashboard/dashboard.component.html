@@ -1,0 +1,98 @@
+
+<section class="dashboard-page">
+    <section class="section-heading">
+    <div>
+      <span>HOW IT WORKS</span>
+      <h2>Four gestures. Zero friction.</h2>
+       <p>Simple, memorable controls designed to keep note-taking fast and intuitive.</p>
+    </div>
+     <button class="open-btn" (click)="openPopup()">Open my notes <span>→</span></button>
+  </section>
+  <section class="hero-panel">
+     <div class="hero-visual" aria-hidden="true">
+      <div class="orb orb-one"></div>
+      <div class="orb orb-two"></div>
+      <div class="glass-note">
+        <span class="note-kicker">Create with an open palm.</span>
+        <div class="content"><h2>Raise your open palm to launch a fresh note instantly.</h2></div>
+        <div class="note-lines"><i></i><i></i><i></i></div>
+      </div>
+      <div class="gesture-chip">✋ Open palm</div>
+      <div class="gesture-chip second">👍 Thumb up</div>
+    </div>
+      <div class="hero-visual" aria-hidden="true">
+      <div class="orb orb-one"></div>
+      <div class="orb orb-two"></div>
+      <div class="glass-note">
+        <span class="note-kicker">Save with a thumb-up.</span>
+        <div class="content"><h2>Show your right thumb to save your note—no click required.</h2></div>
+        <div class="note-lines"><i></i><i></i><i></i></div>
+      </div>
+      <div class="gesture-chip">✋ Open palm</div>
+      <div class="gesture-chip second">👍 Thumb up</div>
+    </div>
+      <div class="hero-visual" aria-hidden="true">
+      <div class="orb orb-one"></div>
+      <div class="orb orb-two"></div>
+      <div class="glass-note">
+        <span class="note-kicker">Scroll by pointing up.</span>
+        <div class="content"><h2>Point upward and AirNotes smoothly moves through the page.</h2></div>
+        <div class="note-lines"><i></i><i></i><i></i></div>
+      </div>
+      <div class="gesture-chip">✋ Open palm</div>
+      <div class="gesture-chip second">👍 Thumb up</div>
+    </div>
+      <div class="hero-visual" aria-hidden="true">
+      <div class="orb orb-one"></div>
+      <div class="orb orb-two"></div>
+      <div class="glass-note">
+        <span class="note-kicker">Go back with a closed fist.</span>
+        <div class="content"><h2>Close your fist steadily to return to the home screen.</h2></div>
+        <div class="note-lines"><i></i><i></i><i></i></div>
+      </div>
+      <div class="gesture-chip">✋ Open palm</div>
+      <div class="gesture-chip second">👍 Thumb up</div>
+    </div>
+  </section>
+
+
+
+  
+  <div class="modal-overlay" *ngIf="showPopup" (click)="closePopup()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div><span class="eyebrow">YOUR LIBRARY</span><h2>My Notes</h2></div>
+        <button class="close-btn" (click)="closePopup()" aria-label="Close notes">✕</button>
+      </div>
+      <section class="toolbar">
+        <div class="search-wrap"><span>⌕</span><input type="search" placeholder="Search notes..." [ngModel]="searchTerm()" (ngModelChange)="updateSearch($event)"></div>
+        <div class="filters">
+          <button type="button" [class.active]="categoryFilter() === 'all'" (click)="setFilter('all')">All</button>
+          <button type="button" [class.active]="categoryFilter() === 'college'" (click)="setFilter('college')">College</button>
+          <button type="button" [class.active]="categoryFilter() === 'job'" (click)="setFilter('job')">Job</button>
+        </div>
+      </section>
+
+      @if (filteredNotes().length) {
+        <section class="notes-grid">
+          @for (note of filteredNotes(); track note.id) {
+            <app-note-card [note]="note" (deleteRequested)="openDeleteDialog($event)" />
+          }
+        </section>
+      } @else {
+        <section class="empty-state">
+          <div class="empty-icon">✦</div><h2>No notes found</h2><p>Create your first note or adjust the search and filters.</p><a routerLink="/notes/new">Create new note</a>
+        </section>
+      }
+
+      @if (noteToDelete(); as note) {
+        <div class="dialog-backdrop" (click)="cancelDelete()">
+          <div class="dialog" (click)="$event.stopPropagation()">
+            <span class="danger-icon">!</span><h2>Delete this note?</h2><p>“{{ note.title }}” will be permanently removed from this browser.</p>
+            <div class="dialog-actions"><button type="button" class="cancel" (click)="cancelDelete()">Cancel</button><button type="button" class="delete" (click)="confirmDelete()">Delete note</button></div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
